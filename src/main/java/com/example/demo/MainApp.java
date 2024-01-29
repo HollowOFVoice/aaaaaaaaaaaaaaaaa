@@ -2,6 +2,8 @@ package com.example.demo;
 import com.example.demo.controller.PersonEditDialogController;
 import com.example.demo.controller.PersonOverviewController;
 import com.example.demo.model.Person;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +16,12 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class MainApp extends Application {
 
@@ -25,9 +32,18 @@ public class MainApp extends Application {
     /**
      * Конструктор
      */
-    File file = new File("./file.txt");
-    public MainApp() {
-        // В качестве образца добавляем некоторые данные
+    static GsonBuilder builder = new GsonBuilder();
+    static Gson gson = builder.create();
+
+    public MainApp() throws IOException {
+        FileReader fileReader = new FileReader("persons.txt");
+        Scanner scanner = new Scanner(fileReader);
+//читаем файл пока не достигнут его конец
+        while (scanner.hasNext()){
+            personData.add(fromJson(scanner.nextLine()));
+        }
+        fileReader.close();
+       /* // В качестве образца добавляем некоторые данные
         personData.add(new Person("Владислав","Бас"));
         personData.add(new Person("Евгений","Березуев"));
         personData.add(new Person("Илья","Мамонов"));
@@ -36,14 +52,27 @@ public class MainApp extends Application {
         personData.add(new Person("Анастасия","Реснянская"));
         personData.add(new Person("Владимир","Ростовцев"));
         personData.add(new Person("Артур","Сарян"));
-        personData.add(new Person("Вадим","Федоров"));
+        personData.add(new Person("Вадим","Федоров"));*/
+    }
+
+    private static Person fromJson(String str) {
+        Person cat = gson.fromJson(str,Person.class);
+        return cat;
     }
     /**
      * Возвращает данные в виде наблюдаемого списка адресатов.
      * @return
      */
+
+
+
+
     public ObservableList<Person> getPersonData() {
         return personData;
+    }
+
+    public void setPersonData(ObservableList<Person> personData) {
+        this.personData = personData;
     }
 
     @Override
@@ -149,8 +178,24 @@ public class MainApp extends Application {
 
     public static void main(String[] args) {
         launch(args);
+
+
+
     }
+    public void stop() throws java.lang.Exception {
 
+        FileWriter fileWriter = new FileWriter("persons.txt");
+        fileWriter.write(toJson(personData));
+        fileWriter.close();
 
+    }
+    private static String toJson(List<Person> cats) {
+        String resul ="";
+        for (Person cat : cats) {
+            System.out.println(gson.toJson(cat));
+            resul+= gson.toJson(cat)+'\n';
+        }
+        return resul;
+    }
 
 }
