@@ -1,0 +1,5 @@
+{"firstName":{"name":"","value":"asdasd","valid":true,"helper":{"observable":{}}},
+"lastName":{"name":"","value":"asdasdasdsa","valid":true,"helper":{"observable":{}}},
+"street":{"name":"","value":"какая-то улица","valid":true},
+"postalCode":{"name":"","value":1234,"valid":true},
+"city":{"name":"","value":"какой-то город","valid":true},"birthday":{}}
