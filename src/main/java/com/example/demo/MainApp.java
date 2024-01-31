@@ -35,7 +35,7 @@ public class MainApp extends Application {
     static GsonBuilder builder = new GsonBuilder();
     static Gson gson = builder.create();
 
-    public MainApp() throws IOException {
+    public MainApp() throws IOException {///////////////////////////////////////////////////////////////////
         FileReader fileReader = new FileReader("persons.txt");
         Scanner scanner = new Scanner(fileReader);
 //читаем файл пока не достигнут его конец
